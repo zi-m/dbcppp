@@ -88,7 +88,7 @@ public:
         std::string name = var->get_attribute("name");
         IAttribute::value_t value = var->get_attribute("Value");
         std::stringstream ss;
-        std::visit([&](auto v) { ss << v; }, value);
+        boost::apply_visitor([&](auto v) { ss << v; }, value);
         {
             int64_t i64value;
             ss >> i64value;

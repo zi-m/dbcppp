@@ -60,11 +60,11 @@ extern "C"
     DBCPPP_API dbcppp_EAttributeValueType dbcppp_AttributeValueType(const dbcppp_Attribute* attribute)
     {
         auto ai = reinterpret_cast<const AttributeImpl*>(attribute);
-        if (std::get_if<int64_t>(&ai->Value()))
+        if (boost::get<int64_t>(&ai->Value()))
         {
             return dbcppp_EAttributeValueType::dbcppp_AttributeValueType_Int;
         }
-        else if (std::get_if<double>(&ai->Value()))
+        else if (boost::get<double>(&ai->Value()))
         {
             return dbcppp_EAttributeValueType::dbcppp_AttributeValueType_Double;
         }
@@ -76,17 +76,17 @@ extern "C"
     DBCPPP_API int64_t dbcppp_AttributeValueAsInt(const dbcppp_Attribute* attribute)
     {
         auto ai = reinterpret_cast<const AttributeImpl*>(attribute);
-        return std::get<int64_t>(ai->Value());
+        return boost::get<int64_t>(ai->Value());
     }
     DBCPPP_API double dbcppp_AttributeValueAsDouble(const dbcppp_Attribute* attribute)
     {
         auto ai = reinterpret_cast<const AttributeImpl*>(attribute);
-        return std::get<double>(ai->Value());
+        return boost::get<double>(ai->Value());
     }
     DBCPPP_API const char* dbcppp_AttributeValueAsString(const dbcppp_Attribute* attribute)
     {
         auto ai = reinterpret_cast<const AttributeImpl*>(attribute);
-        return std::get<std::string>(ai->Value()).c_str();
+        return boost::get<std::string>(ai->Value()).c_str();
     }
 
     DBCPPP_API dbcppp_AttributeDefinition* dbcppp_AttributeDefinitionCreate(

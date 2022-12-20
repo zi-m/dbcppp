@@ -42,7 +42,7 @@ DBCPPP_API std::ostream& dbcppp::Network2DBC::operator<<(std::ostream& os, const
     {
     case IAttributeDefinition::EObjectType::Network:
     {
-        std::visit(Visitor(os), iattr.Value());
+        boost::apply_visitor(Visitor(os), iattr.Value());
         break;
     }
     case IAttributeDefinition::EObjectType::Node:
@@ -63,7 +63,7 @@ DBCPPP_API std::ostream& dbcppp::Network2DBC::operator<<(std::ostream& os, const
                 return iter != end_node ? iter->Name() : "";
             };
         os << " BU_ " << find_node_name();
-        std::visit(Visitor(os), iattr.Value());
+        boost::apply_visitor(Visitor(os), iattr.Value());
         break;
     }
     case IAttributeDefinition::EObjectType::Message:
@@ -84,7 +84,7 @@ DBCPPP_API std::ostream& dbcppp::Network2DBC::operator<<(std::ostream& os, const
                 return iter != end_msg ? iter->Id() : uint64_t(-1);
             };
         os << " BO_ " << find_message_id();
-        std::visit(Visitor(os), iattr.Value());
+        boost::apply_visitor(Visitor(os), iattr.Value());
         break;
     }
     case IAttributeDefinition::EObjectType::Signal:
@@ -119,7 +119,7 @@ DBCPPP_API std::ostream& dbcppp::Network2DBC::operator<<(std::ostream& os, const
         const ISignal* sig = find_signal();
         os << " SG_ " << net.ParentMessage(sig)->Id();
         os << " " << sig->Name();
-        std::visit(Visitor(os), iattr.Value());
+        boost::apply_visitor(Visitor(os), iattr.Value());
         break;
     }
     case IAttributeDefinition::EObjectType::EnvironmentVariable:
@@ -141,7 +141,7 @@ DBCPPP_API std::ostream& dbcppp::Network2DBC::operator<<(std::ostream& os, const
 
             };
         os << " EV_ " << find_environment_variable_name();
-        std::visit(Visitor(os), iattr.Value());
+        boost::apply_visitor(Visitor(os), iattr.Value());
         break;
     }
     }
