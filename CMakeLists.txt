@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 project(dbcppp)
 
-#string(REGEX REPLACE "/Ob0"  "/Ob3" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-#string(REGEX REPLACE "/Od"   "/O2"  CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-#string(REGEX REPLACE "/RTC1" ""     CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+option(ENABLE_Ob3 "Enable /Ob3 flag (CMAKE_CXX_FLAGS_DEBUG)" OFF)
+
+if(ENABLE_Ob3)
+    string(REGEX REPLACE "/Ob0"  "/Ob3" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REGEX REPLACE "/Od"   "/O2"  CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REGEX REPLACE "/RTC1" ""     CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+endif()
 
 find_package(unofficial-libxmlmm CONFIG REQUIRED)
 find_package(Boost REQUIRED)
