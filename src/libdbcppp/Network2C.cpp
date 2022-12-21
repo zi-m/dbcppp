@@ -58,11 +58,11 @@ DBCPPP_API std::ostream& dbcppp::Network2C::operator<<(std::ostream& os, const I
             {
                 nbytes = (sigi.BitSize() + (7 - sigi.StartBit() % 8) + 7) / 8;
             }
-            if (sigi._byte_pos + nbytes <= 8 || nbytes <= 8)
+            if (sigi.BytePos() + nbytes <= 8 || nbytes <= 8)
             {
                 // Alignment::size_inbetween_first_64_bit; or
                 // Alignment::signal_exceeds_64_bit_size_but_signal_fits_into_64_bit;
-                if (sigi._byte_pos + nbytes <= 8)
+                if (sigi.BytePos() + nbytes <= 8)
                 {
                     os << boost::format("    data = *reinterpret_cast<const uint64_t*>(nbytes);\n");
                 }
@@ -70,7 +70,7 @@ DBCPPP_API std::ostream& dbcppp::Network2C::operator<<(std::ostream& os, const I
                 {
                     os << boost::format(
                         "data = *reinterpret_cast<const uint64_t*>(&reinterpret_cast<const uint8_t*>(nbytes)[%1%]);\n")
-                        % sigi._byte_pos;
+                        % sigi.BytePos();
                 }
                 if (sig.ByteOrder() == ISignal::EByteOrder::BigEndian)
                 {
@@ -110,10 +110,10 @@ DBCPPP_API std::ostream& dbcppp::Network2C::operator<<(std::ostream& os, const I
                 // Alignment::signal_exceeds_64_bit_size_and_signal_does_not_fit_into_64_bit;
                 os << boost::format(
                     "    data = *reinterpret_cast<const uint64_t*>(&reinterpret_cast<const uint8_t*>(nbytes)[%1%]);\n")
-                    % sigi._byte_pos;
+                    % sigi.BytePos();
                 os << boost::format(
                     "    uint64_t data1 = reinterpret_cast<const uint8_t*>(nbytes)[%1% + 8];\n")
-                    % sigi._byte_pos;
+                    % sigi.BytePos();
                 if (sig.ByteOrder() == ISignal::EByteOrder::BigEndian)
                 {
                     os << boost::format(

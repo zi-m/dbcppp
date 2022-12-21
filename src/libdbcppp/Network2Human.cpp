@@ -94,9 +94,10 @@ std::set<uint64_t> get_mux_values(const IMessage& msg)
 DBCPPP_API std::ostream& dbcppp::Network2Human::operator<<(std::ostream& os, const IMessage& msg)
 {
     os << boost::format("  %-12s%s\n") % "Name:" % msg.Name();
-    os << boost::format("  %-12s0x%X\n") % "ID:" % msg.Id();
-    os << boost::format("  %-12s0x%X\n") % "Length:" % msg.MessageSize();
+    os << boost::format("  %-12s0x%X (%d)\n") % "ID:" % msg.Id() % msg.Id();
+    os << boost::format("  %-12s0x%X (%d)\n") % "Length:" % msg.MessageSize() % msg.MessageSize();
     os << boost::format("  %-12s%s\n") % "Sender:" % msg.Transmitter();
+    os << boost::format("  %-12s%s\n") % "Comment:" % msg.Comment();
     os << boost::format("  Layout:\n");
     
     auto mux_values = get_mux_values(msg);
@@ -136,7 +137,7 @@ DBCPPP_API std::ostream& dbcppp::Network2Human::operator<<(std::ostream& os, con
         {
             print_bar();
             print_ident();
-            os << boost::format("%d |") % (i_bit / 8);
+            os << boost::format("%-2d|") % (i_bit / 8);
             auto find_cur_sig =
                 [&]()
                 {

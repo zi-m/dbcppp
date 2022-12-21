@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <cstddef>
+#include <span>
 
 #include "Export.h"
 #include "Iterator.h"
@@ -112,8 +113,11 @@ namespace dbcppp
         ///               bit_n-7 - bit_n: bytes[n / 8]
         ///               (like the Unix CAN frame does store the data)
         using raw_t = uint64_t;
-        inline raw_t Decode(const void* bytes) const noexcept { return _decode(this, bytes); }
+        inline raw_t Decode(const void* bytes) const noexcept { return _decode(this, reinterpret_cast<const uint8_t*>(bytes) + _byte_pos); }
         inline void Encode(raw_t raw, void* buffer) const noexcept { return _encode(this, raw, buffer); }
+        
+        inline uint64_t BytePos() const noexcept { return _byte_pos; }
+        inline raw_t DecodeSeries(const void* bytes) const noexcept { return _decode(this, bytes); }
 
         inline double RawToPhys(raw_t raw) const noexcept { return _raw_to_phys(this, raw); }
         inline raw_t PhysToRaw(double phys) const noexcept { return _phys_to_raw(this, phys); }
@@ -129,5 +133,7 @@ namespace dbcppp
         void (*_encode)(const ISignal* sig, raw_t raw, void* buffer) noexcept {nullptr};
         double (*_raw_to_phys)(const ISignal* sig, raw_t raw) noexcept {nullptr};
         raw_t (*_phys_to_raw)(const ISignal* sig, double phys) noexcept {nullptr};
+
+        uint64_t _byte_pos;
     };
 }

@@ -18,8 +18,8 @@ ISignal::raw_t template_decode(const ISignal* sig, const void* nbytes) noexcept
     uint64_t data;
     if constexpr (aAlignment == Alignment::signal_exceeds_64_bit_size_and_signal_does_not_fit_into_64_bit)
     {
-        data = *reinterpret_cast<const uint64_t*>(&reinterpret_cast<const uint8_t*>(nbytes)[sigi->_byte_pos]);
-        uint64_t data1 = reinterpret_cast<const uint8_t*>(nbytes)[sigi->_byte_pos + 8];
+        data = *reinterpret_cast<const uint64_t*>(nbytes);
+        uint64_t data1 = reinterpret_cast<const uint8_t*>(nbytes)[8];
         if constexpr (aByteOrder == ISignal::EByteOrder::BigEndian)
         {
             //native_to_big_inplace(data);
@@ -60,7 +60,7 @@ ISignal::raw_t template_decode(const ISignal* sig, const void* nbytes) noexcept
         }
         else
         {
-            data = *reinterpret_cast<const uint64_t*>(&reinterpret_cast<const uint8_t*>(nbytes)[sigi->_byte_pos]);
+            data = *reinterpret_cast<const uint64_t*>(nbytes);
         }
         if constexpr (aByteOrder == ISignal::EByteOrder::BigEndian)
         {
@@ -437,6 +437,7 @@ SignalImpl::SignalImpl(
     if (_byte_pos + nbytes <= 8)
     {
         alignment = Alignment::size_inbetween_first_64_bit;
+        _byte_pos = 0;
         if (_byte_order == EByteOrder::LittleEndian)
         {
             _fixed_start_bit_0 = _start_bit;
