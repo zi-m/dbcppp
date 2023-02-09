@@ -33,3 +33,5 @@ output
 /out/build/WSL-GCC-Debug/.cmake/api/v1/query/client-MicrosoftVS/query.json
 /tests/Config.h
 CMakeLists.txt.user
+/.idea/
+/cmake-build-debug/

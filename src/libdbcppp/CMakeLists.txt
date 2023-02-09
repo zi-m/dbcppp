@@ -20,9 +20,7 @@ configure_file(EndianConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/EndianConfig.h @ONL
 # libdbcppp
 #
 
-message(STATUS "dbcppp_INCLUDE_DIR=${dbcppp_INCLUDE_DIR}")
-
-add_library(libdbcppp SHARED
+add_library(libdbcppp STATIC
         "AttributeDefinitionImpl.cpp"
         "AttributeImpl.cpp"
         "BitTimingImpl.cpp"
@@ -46,18 +44,13 @@ add_library(libdbcppp SHARED
         )
 
 target_include_directories(libdbcppp
-        PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${dbcppp_INCLUDE_DIR}>
+        PUBLIC $<INSTALL_INTERFACE:include>
+        PUBLIC $<BUILD_INTERFACE:${dbcppp_INCLUDE_DIR}>
         )
 
 target_link_libraries(libdbcppp
         PRIVATE Boost::headers
         PRIVATE unofficial::libxmlmm::libxmlmm
-        )
-
-target_compile_definitions(libdbcppp
-        PRIVATE DBCPPP_EXPORT
         )
 
 target_compile_features(libdbcppp
