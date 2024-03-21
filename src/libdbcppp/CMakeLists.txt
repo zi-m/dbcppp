@@ -28,7 +28,6 @@ add_library(libdbcppp STATIC
         "DBCAST2Network.cpp"
         "DBCX3.cpp"
         "EnvironmentVariableImpl.cpp"
-        "KCD2Network.cpp"
         "MessageImpl.cpp"
         "Network2C.cpp"
         "Network2DBC.cpp"
@@ -50,7 +49,6 @@ target_include_directories(libdbcppp
 
 target_link_libraries(libdbcppp
         PRIVATE Boost::headers
-        PRIVATE unofficial::libxmlmm::libxmlmm
         )
 
 target_compile_features(libdbcppp
@@ -70,3 +68,9 @@ install(TARGETS libdbcppp EXPORT dbcppp-config
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         )
+
+if(ENABLE_KCD)
+    target_sources(libdbcppp PRIVATE "KCD2Network.cpp")
+    target_link_libraries(libdbcppp PRIVATE unofficial::libxmlmm::libxmlmm)
+    target_compile_definitions(libdbcppp PRIVATE ENABLE_KCD)
+endif()
