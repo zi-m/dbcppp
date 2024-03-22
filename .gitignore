@@ -36,3 +36,4 @@ CMakeLists.txt.user
 /.idea/
 /cmake-build-debug/
 /out/
+/PreLoad.cmake

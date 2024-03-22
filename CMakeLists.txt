@@ -12,5 +12,5 @@ find_package(Boost REQUIRED)
 set(dbcppp_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_subdirectory(src/libdbcppp)
 
-install(EXPORT dbcppp-config DESTINATION share/dbcppp)
+install(EXPORT dbcppp-config NAMESPACE dbcppp:: DESTINATION share/dbcppp)
 install(DIRECTORY include/dbcppp DESTINATION include)

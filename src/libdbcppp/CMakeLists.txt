@@ -42,6 +42,8 @@ add_library(libdbcppp STATIC
         "ValueTableImpl.cpp"
         )
 
+add_library(dbcppp::dbcppp ALIAS libdbcppp)
+
 target_include_directories(libdbcppp
         PUBLIC $<INSTALL_INTERFACE:include>
         PUBLIC $<BUILD_INTERFACE:${dbcppp_INCLUDE_DIR}>
